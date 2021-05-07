@@ -1,0 +1,31 @@
+---
+title: "example"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{example}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+# library(rms2)
+library(devtools)
+load_all()
+
+
+x <- rms2$new("ukb-b-19953")
+x$extract_gwashits()
+x$scan_rsid(x$gwashits$rsid[1])
+x$coloc_scan(x$gwashits$rsid[1])
+
+x$plot_coloc(x$gwashits$rsid[1], x$rsid_scan[[x$gwashits$rsid[1]]]$id[19])
+
+plot(x$coloc_data$rs909001[[19]]$data$dataset1$z ~ x$coloc_data$rs909001[[19]]$data$dataset2$z)
+```
