@@ -15,17 +15,70 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-# library(rms2)
-library(devtools)
-load_all()
-
-
-x <- rms2$new("ukb-b-19953")
-x$extract_gwashits()
-x$scan_rsid(x$gwashits$rsid[1])
-x$coloc_scan(x$gwashits$rsid[1])
-
-x$plot_coloc(x$gwashits$rsid[1], x$rsid_scan[[x$gwashits$rsid[1]]]$id[19])
-
-plot(x$coloc_data$rs909001[[19]]$data$dataset1$z ~ x$coloc_data$rs909001[[19]]$data$dataset2$z)
+library(rms2)
+# library(devtools)
+# load_all()
 ```
+
+Create new rms2 class for the outcome GWAS of interest
+
+```{r}
+x <- rms2$new("ukb-b-2227")
+```
+
+Get the GWAS hits for that dataset
+
+```{r}
+x$extract_gwashits()
+x$gwashits
+```
+
+Scan OpenGWAS for associations with the second GWAS hit
+
+```{r}
+x$scan_rsid(x$gwashits$rsid[2])
+x$rsid_scan
+```
+
+Perform colocalisation for each of the candidate associations
+
+```{r}
+x$coloc_scan(x$gwashits$rsid[2])
+x$coloc_result
+```
+
+Example of plotting a region (extracts LD matrix)
+
+```{r}
+x$plot_coloc(x$gwashits$rsid[2], x$rsid_scan[[x$gwashits$rsid[2]]]$id[1])
+```
+
+Perform MR for all the candidate traits (though could also exclude the traits that don't colocalise)
+
+```{r}
+x$mr(x$gwashits$rsid[2], exclude_rsid_region=TRUE)
+x$mr_scan[[x$gwashits$rsid[2]]] %>% dplyr::select(exposure, b, se, pval)
+```
+
+Perform multivariable MR of candidate traits. Excluding the alternative GWAS of number of children fathered as this is synonymous with the outcome
+
+```{r}
+x$mvmr(x$gwashits$rsid[2], traitlist=x$rsid_scan[[x$gwashits$rsid[2]]]$id[-5])
+x$mv_dat[[x$gwashits$rsid[2]]][["result"]][[1]] %>% dplyr::select(exposure, b, se, pval)
+```
+
+Perform feature selection and re-estimate associations after that. It updates the result from the standard MVMR analysis
+
+```{r}
+x$mvmr_lasso(x$gwashits$rsid[2])
+x$mv_dat[[x$gwashits$rsid[2]]][["result"]][[1]] %>% dplyr::select(exposure, b, se, pval)
+```
+
+Note that this might lead to under-estimated standard errors so it should be used for estimation rather than hypothesis testing
+
+
+## Todo
+
+- MVMR should not be performed for traits that don't have genome-wide coverage because it will cause most SNPs to be excluded e.g. if one of the traits has less than 90% of the GWAS hits from the other traits then exclude it
+- Estimation of variance in GWAS hit mediated by candidate traits
+
