@@ -24,8 +24,13 @@ Imports:
 	R6,
 	ieugwasr,
 	TwoSampleMR,
-    magrittr
+    magrittr,
+    coloc,
+    gwasglue,
+    gassocplot
 Remotes:
 	MRCIEU/ieugwasr,
-	MRCIEU/TwoSampleMR
+	MRCIEU/TwoSampleMR,
+	MRCIEU/gwasglue,
+	jrs95/gassocplot
 VignetteBuilder: knitr
