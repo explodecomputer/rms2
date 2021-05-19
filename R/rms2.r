@@ -65,7 +65,8 @@ rms2 <- R6::R6Class("rms2", list(
 	#' @param rsid RSID
 	#' @param pval Significance threshold for candidate traits default=5e-8
 	#' @param idlist Which traits to search. When NULL (default) will search all available traits
-	scan_rsid = function(rsid, pval=5e-8, idlist=NULL)
+	#' @param check_population Restrict candidate traits to the same population as the igd_id. Default=TRUE
+	scan_rsid = function(rsid, pval=5e-8, idlist=NULL, check_population=TRUE)
 	{
 		if(is.null(idlist))
 		{
@@ -75,10 +76,17 @@ rms2 <- R6::R6Class("rms2", list(
 				dplyr::filter(p < pval)
 		}
 		res <- subset(res, !id == self$igd_id)
+		pop <- self$info$population
 		for(r in rsid)
 		{
-			message("Found ", nrow(res), " associations for ", r)
 			self$rsid_scan[[r]] <- subset(res, rsid == r)
+			if(check_population)
+			{
+				gi <- ieugwasr::gwasinfo(self$rsid_scan[[r]]$id)
+				keepid <- subset(gi, population == pop)$id
+				self$rsid_scan[[r]] <- subset(self$rsid_scan[[r]], id %in% keepid)
+			}
+			message("Found ", nrow(self$rsid_scan[[r]]), " associations for ", r)
 		}
 	},
 

@@ -100,7 +100,7 @@ Extract GWAS hits for igd_id
 \subsection{Method \code{scan_rsid()}}{
 Search OpenGWAS for associations with a particular GWAS hit
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{rms2$scan_rsid(rsid, pval = 5e-08, idlist = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{rms2$scan_rsid(rsid, pval = 5e-08, idlist = NULL, check_population = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -111,6 +111,8 @@ Search OpenGWAS for associations with a particular GWAS hit
 \item{\code{pval}}{Significance threshold for candidate traits default=5e-8}
 
 \item{\code{idlist}}{Which traits to search. When NULL (default) will search all available traits}
+
+\item{\code{check_population}}{Restrict candidate traits to the same population as the igd_id. Default=TRUE}
 }
 \if{html}{\out{</div>}}
 }
