@@ -160,6 +160,7 @@ rms2 <- R6::R6Class("rms2", list(
 			if(steiger_filtering)
 			{
 				dat <- dat %>% 
+					TwoSampleMR::add_metadata() %>%
 					TwoSampleMR::steiger_filtering() %>%
 					dplyr::filter(steiger_dir)
 			}
