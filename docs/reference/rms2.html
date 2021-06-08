@@ -209,7 +209,7 @@
 <p><hr>
 <a id="method-scan_rsid"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>scan_rsid()</code></h3>
 <p>Search OpenGWAS for associations with a particular GWAS hit</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>rms2</span><span class='op'>$</span><span class='fu'>scan_rsid</span><span class='op'>(</span><span class='va'>rsid</span>, pval <span class='op'>=</span> <span class='fl'>5e-08</span>, idlist <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>rms2</span><span class='op'>$</span><span class='fu'>scan_rsid</span><span class='op'>(</span><span class='va'>rsid</span>, pval <span class='op'>=</span> <span class='fl'>5e-08</span>, idlist <span class='op'>=</span> <span class='cn'>NULL</span>, check_population <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -218,6 +218,8 @@
 <dt><code>pval</code></dt><dd><p>Significance threshold for candidate traits default=5e-8</p></dd>
 
 <dt><code>idlist</code></dt><dd><p>Which traits to search. When NULL (default) will search all available traits</p></dd>
+
+<dt><code>check_population</code></dt><dd><p>Restrict candidate traits to the same population as the igd_id. Default=TRUE</p></dd>
 
 </dl><p></div></p>
 <p><hr>
